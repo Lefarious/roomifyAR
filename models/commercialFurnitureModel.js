@@ -7,11 +7,11 @@ const commercialFurnitureSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    manufacturer: {
+    manufacturerId: {
         type: String,
         required: true
     },
-    variations: {
+    variations: {    //look into this
         color: {
             type: String,
             required: true

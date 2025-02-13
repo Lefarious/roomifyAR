@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Furniture = require('./furnitureModel');
 
 const roomSchema = new mongoose.Schema({
     name: {
@@ -18,10 +19,10 @@ const roomSchema = new mongoose.Schema({
         default: null
     },
     furniture: {
-        type: String,
+        type: [Furniture.schema.obj],
         default: null
     },
-    furniture: {
+    furnitureAnchors: {
         type: String,
         default: null
     }

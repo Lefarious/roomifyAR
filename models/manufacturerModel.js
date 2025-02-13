@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const CommercialFurniture = require('./commercialFurnitureModel');
 
 const manufactureSchema = nwe.mongoose.Schema({
     name: {
@@ -14,7 +15,7 @@ const manufactureSchema = nwe.mongoose.Schema({
         required: true
     },
     products: {
-        type: String,
+        type: [CommercialFurniture.schema.obj],
         required: true
     },
     rating: {

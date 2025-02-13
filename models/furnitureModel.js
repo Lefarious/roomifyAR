@@ -19,9 +19,19 @@ const furnitureSchema = new mongoose.Schema({
         required: true
     },
     dimensions: {
-        type: String,
-        required: true
-    }
+            width: {
+                type: Number,
+                required: true
+            },
+            height: {
+                type: Number,
+                required: true
+            },
+            depth: {
+                type: Number,
+                required: true
+            }
+        }
 },
 {
     timestamps: true

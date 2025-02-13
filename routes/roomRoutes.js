@@ -6,4 +6,6 @@ router.route('/').get(getRooms).post(createRoom);
 
 router.route('/:id').get(getRoom).put(updateRoom).delete(deleteRoom);
 
+router.route('/furniture/:id').post(addFurniture).delete(deleteFurniture);
+
 module.exports = router;

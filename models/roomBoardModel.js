@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Furniture = require('./furnitureModel');
 
 const roomBoardSchema = new mongoose.Schema({
     name: {
@@ -10,7 +11,7 @@ const roomBoardSchema = new mongoose.Schema({
         required: true
     },
     models: {
-        type: String,
+        type: [Furniture.schema.obj],
         required: true
     },
     anchors: {
@@ -30,7 +31,7 @@ const roomBoardSchema = new mongoose.Schema({
         required: true
     },
     savedBy: {
-        type: String,
+        type: [User.schema.obj],
         required: true
     }
 },

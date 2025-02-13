@@ -6,4 +6,6 @@ router.route('/').get(getManufacturerFurnitures).post(createManufacturerFurnitur
 
 router.route('/:id').get(getManufacturerFurniture).put(updateManufacturerFurniture).delete(deleteManufacturerFurniture);
 
+router.route('/products/:id').get(addProduct).delete(deleteProduct);
+
 module.exports = router;

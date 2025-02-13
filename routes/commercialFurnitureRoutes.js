@@ -6,4 +6,8 @@ router.route('/').get(getCommercialFurnitures).post(createCommercialFurniture);
 
 router.route('/:id').get(getCommercialFurniture).put(updateCommercialFurniture).delete(deleteCommercialFurniture);
 
+router.route('/variation/:id').post(addVariation).delete(deleteVariation);
+
+router,route('/rating/:id').post(addRating).put(editRating).delete(deleteRating);
+
 module.exports = router;
