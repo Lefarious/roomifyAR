@@ -8,6 +8,6 @@ router.route('/:id').get(getCommercialFurniture).put(updateCommercialFurniture).
 
 router.route('/variation/:id').post(addVariation).delete(deleteVariation);
 
-router,route('/rating/:id').post(addRating).put(editRating).delete(deleteRating);
+router.route('/rating/:id').post(addRating);
 
 module.exports = router;
