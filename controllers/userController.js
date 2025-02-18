@@ -80,6 +80,23 @@ const loginUser = asyncHandler (async (req,res,next) => {
         res.status(400);
         return next(new Error("All feilds are mandtory"));
     }
+    const user = await User.findOne({ email });
+    if(user && (await bcrypt.compare(password, user.password))) {
+        const accessToken = jwt.sign({
+            user : {
+                username : user.username,
+                email : user.email,
+                id: user.id,
+            },
+        }, process.env.ACCESS_TOKEN_SECRET,
+        { expiresIn: "1m"}
+    );
+        res.status(200).json({ accessToken })
+    } else {
+        res.status(401)
+        return next(new Error("Email or Password is not valid"));
+    }
+    res.status(201).json("User logged in")
 });
 
 // @desc Signup User
@@ -116,6 +133,7 @@ const signupUser = asyncHandler(async (req, res, next) => {
         res.status(400);
         return next(new Error("User data was not valid"));
     }
+    res.status(201).json("User signed up")
 });
 
 //@desc Add Room
@@ -264,4 +282,4 @@ const deleteWishlist = asyncHandler (async (req,res,next) => {
 
 
 
-module.exports = { getUsers, getUser, createUser, updateUser, deleteUser, addRoom, deleteRoom, addSave, deleteSave, addScan, deleteScan, signupUser, addWishlist, deleteWishlist};
+module.exports = { getUsers, getUser, createUser, updateUser, deleteUser, addRoom, deleteRoom, addSave, deleteSave, addScan, deleteScan, signupUser, addWishlist, deleteWishlist, loginUser};

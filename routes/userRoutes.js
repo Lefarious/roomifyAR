@@ -5,7 +5,7 @@ router.route('/').get(getUsers).post(createUser);
 
 router.route('/:id').get(getUser).put(updateUser).delete(deleteUser);
 
-//router.route('/login/:id').post(loginUser);
+router.route('/login/:id').post(loginUser);
 
 router.route('/signup').post(signupUser);
 
