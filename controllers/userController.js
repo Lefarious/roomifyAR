@@ -1,5 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel.js");
+const bcrypt = require("bcryptjs");
+const jwt = require('jsonwebtoken');
 const { findModelById, isExists } = require("../middleware/controllerUtilty.js");
 
 //@desc Get User
@@ -7,8 +9,11 @@ const { findModelById, isExists } = require("../middleware/controllerUtilty.js")
 //@access public
 
 const getUser = asyncHandler (async (req,res,next) => {
-    const user = findModelById(User, req.params.id);
-    await isExists(user);
+    const user = await User.findById(req.params.id);
+    if (!user) {
+        res.status(404);
+        return next(new Error("User not found"));
+    }
     res.status(200).json(user);
 });
 
@@ -17,23 +22,23 @@ const getUser = asyncHandler (async (req,res,next) => {
 //@access public
 
 const getUsers = asyncHandler (async (req,res) => {
-    const Users = await User.find();
-    res.status(200).json(Users);
+    const users = await User.find();
+    res.status(200).json(users);
 });
 
-//@desc Create new User
-//@route POST /api/Users
+//@desc Signup a new User
+//@route POST /api/Users/signup/
 //@access public
 
 const createUser = asyncHandler (async (req,res,next) => {
     console.log("Request body : ", req.body);
-    const {name, email, phone} = req.body;
-    if (!name || !email || !phone){
+    const {name, email, password, phone} = req.body;
+    if (!name || !email || !password || !phone){
         res.status(400);
         return next(new Error("All fields are mandatory"));
     }
-    const User = await User.create({ name, email, phone });
-    res.status(201).json(User);
+    const user = await User.create({ name, email, phone, password });
+    res.status(201).json(user);
 });
 
 //@desc Update User
@@ -41,9 +46,11 @@ const createUser = asyncHandler (async (req,res,next) => {
 //@access public
 
 const updateUser = asyncHandler (async (req,res,next) => {
-    const User = findModelById(User, req.params.id);
-    isExists(user);
-    console.log("Request body : ", req.body);
+    const user = await User.findById(req.params.id);
+    if (!user) {
+        res.status(404);
+        return next(new Error("User not found"));
+    }
     const updatedUser = await User.findByIdAndUpdate(req.params.id,req.body,{new: true});
     res.status(201).json(updatedUser);
    // res.status(200).json({message : `Update Users for ${req.params.id}`});
@@ -54,52 +61,96 @@ const updateUser = asyncHandler (async (req,res,next) => {
 //@access public
 
 const deleteUser = asyncHandler (async (req,res,next) => {
-    const User = findModelById(User, req.params.id);
-    isExists(user);
+    const user = await User.findById(req.params.id);
+    if (!user) {
+        res.status(404);
+        return next(new Error("User not found"));
+    }
     await User.findByIdAndDelete(req.params.id);
-    res.status(200).json(User);
+    res.status(200).json(user);
 });
 
 //@desc Login User
 //@route POST /api/Users/login/:id
 //@access public
 
-// const loginUser = asyncHandler (async (req,res,next) => {
-//     const User = findModelById(User, req.params.id);
-// });
+const loginUser = asyncHandler (async (req,res,next) => {
+    const { email, password } = req.body;
+    if(!email | !password){
+        res.status(400);
+        return next(new Error("All feilds are mandtory"));
+    }
+});
 
-//@desc Signup User
-//@route POST /api/Users/signup/:id
-//@access public
+// @desc Signup User
+// @route POST /api/Users/signup/:id
+// @access public
 
-// const signupUser = asyncHandler (async (req,res,next) => {
-//     const User = findModelById(User, req.params.id);
-// });
+const signupUser = asyncHandler(async (req, res, next) => {
+    console.log("Request body : ", req.body);
+    const { username, email, password } = req.body;
+    if (!username || !email || !password) {
+        res.status(400);
+        return next(new Error("All fields are mandatory"));
+    }
+    const userUnavailable = await User.findOne({ email });
+    if (userUnavailable) {
+        res.status(400);
+        return next(new Error("User already exists"));
+    }
+    const hashedPassword = await bcrypt.hash(password, 10);
+    console.log("Hashed password : ", hashedPassword);
+    let user;
+    try {
+        user = await User.create({ username : username , email : email, password: hashedPassword });
+    } catch (error) {
+        console.log(error);
+        res.status(500);
+        return next(new Error("Internal server error"));
+    }
+
+    console.log(`User created  ${user}`);
+    if (user) {
+        res.status(201).json({ _id: user._id, email: user.email });
+    } else {
+        res.status(400);
+        return next(new Error("User data was not valid"));
+    }
+});
 
 //@desc Add Room
 //@route POST /api/Users/rooms/:id
 //@access public
 
 const addRoom = asyncHandler (async (req,res,next) => {
-    const User = findModelById(User, req.params.id);
-    isExists(user);
+    const user = await User.findById(req.params.id);
+    if (!user) {
+        res.status(404);
+        return next(new Error("User not found"));
+    }
     const {roomId} = req.body;
-    User.rooms.push(roomId).save();
-    res.status(201).json(User);
+  User.rooms.push(roomId).save();
+    res.status(201).json(user);
 });
 
 const deleteRoom = asyncHandler (async (req,res,next) => {
-    const User = findModelById
+    const user = findModelById
     (User, req.params.id);
-    isExists(user);
+    if (!user) {
+        res.status(404);
+        return next(new Error("User not found"));
+    }
     const {roomId} = req.body;
-    isExists(roomId);
-    if (User.rooms.indexOf(roomId) === -1) {
+    if (!roomId) {
+        res.status(400);
+        return next(new Error("Room not found"));
+    }
+    if (User.rooms.includes(roomId)) {
         res.status(404);
         return next(new Error("Room not found"));
     }
-    User.rooms.pull(roomId).save();
-    res.status(201).json(User);
+  User.rooms.pull(roomId).save();
+    res.status(201).json(user);
 });
 
 //@desc Add Save
@@ -107,23 +158,33 @@ const deleteRoom = asyncHandler (async (req,res,next) => {
 //@access public
 
 const addSave = asyncHandler (async (req,res,next) => {
-    const User = findModelById
-    (User, req.params.id);
-    isExists(user);
+    const user = await User.findById(req.params.id);
+    if (!user) {
+        res.status(404);
+        return next(new Error("User not found"));
+    }
     const {saveId} = req.body;
     User.saves.push(saveId).save();
-    res.status(201).json(User);
+    res.status(201).json(user);
 });
 
 const deleteSave = asyncHandler (async (req,res,next) => {
-    const User = findModelById
-    (User, req.params.id);
-    await isExists(user);
+    const user = await User.findById(req.params.id);
+    if (!user) {
+        res.status(404);
+        return next(new Error("User not found"));
+    }
     const {saveId} = req.body;
-    await isExists(saveId);
-    await isStored(saveId, User.saves);
-    User.saves.pull(saveId).save();
-    res.status(201).json(User);
+    if (!saveId) {
+        res.status(400);
+        return next(new Error("Save not found"));
+    }
+    if (User.saves.includes(saveId)) {
+        res.status(404);
+        return next(new Error("Save not found"));
+    }
+  User.saves.pull(saveId).save();
+    res.status(201).json(user);
 });
 
 //@desc Add Scan
@@ -131,12 +192,14 @@ const deleteSave = asyncHandler (async (req,res,next) => {
 //@access public
 
 const addScan = asyncHandler (async (req,res,next) => {
-    const User = findModelById
-    (User, req.params.id);
-    isExists(user);
+    const user = await User.findById(req.params.id);
+    if (!user) {
+        res.status(404);
+        return next(new Error("User not found"));
+    }
     const {scanId} = req.body;
     User.scans.push(scanId).save();
-    res.status(201).json(User);
+    res.status(201).json(user);
 });
 
 //@desc Delete Scan
@@ -144,13 +207,19 @@ const addScan = asyncHandler (async (req,res,next) => {
 //@access public
 
 const deleteScan = asyncHandler (async (req,res,next) => {
-    const User = findModelById
+    const user = findModelById
     (User, req.params.id);
-    isExists(user);
+    if (!user) {
+        res.status(404);
+        return next(new Error("User not found"));
+    }
     const {scanId} = req.body;
-    isStored(scanId, User.scans);
+    if (!scanId) {
+        res.status(400);
+        return next(new Error("Scan not found"));
+    }
     User.scans.pull(scanId).save();
-    res.status(201).json(User);
+    res.status(201).json(user);
 }
 );
 
@@ -159,12 +228,15 @@ const deleteScan = asyncHandler (async (req,res,next) => {
 //@access public
 
 const addWishlist = asyncHandler (async (req,res,next) => {
-    const User = findModelById
+    const user = findModelById
     (User, req.params.id);
-    isExists(user);
+    if (!user) {
+        res.status(404);
+        return next(new Error("User not found"));
+    }
     const {wishlistId} = req.body;
     User.wishlist.push(wishlistId).save();
-    res.status(201).json(User);
+    res.status(201).json(user);
 });
 
 //@desc Delete Wishlist
@@ -172,16 +244,24 @@ const addWishlist = asyncHandler (async (req,res,next) => {
 //@access public
 
 const deleteWishlist = asyncHandler (async (req,res,next) => {
-    const User = findModelById
-    (User, req.params.id);
-    isExists(user);
+    const user = await User.findById(req.params.id);
+    if (!user) {
+        res.status(404);
+        return next(new Error("User not found"));
+    }
     const {wishlistId} = req.body;
-    isExists(wishlistId);
-    isStored(wishlistId, User.wishlist);
-    User.wishlist.pull(wishlistId).save();
-    res.status(201).json(User);
+    if (!wishlistId) {
+        res.status(400);
+        return next(new Error("Wishlist not found"));
+    }
+    if (User.wishlist.includes(wishlistId)) {
+        res.status(404);
+        return next(new Error("Wishlist not found"));
+    }
+  User.wishlist.pull(wishlistId).save();
+    res.status(201).json(user);
 });
 
 
 
-module.exports = { getUsers, getUser, createUser, updateUser, deleteUser};
+module.exports = { getUsers, getUser, createUser, updateUser, deleteUser, addRoom, deleteRoom, addSave, deleteSave, addScan, deleteScan, signupUser, addWishlist, deleteWishlist};

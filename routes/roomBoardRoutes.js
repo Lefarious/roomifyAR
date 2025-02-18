@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {getRoomBoards, getRoomBoard, createRoomBoard, updateRoomBoard, deleteRoomBoard} = require('../controllers/roomBoardController');
+const {getRoomBoards, getRoomBoard, createRoomBoard, updateRoomBoard, deleteRoomBoard, addModel, deleteModel, addModelAnchor, deleteModelAnchor, addSaved, deleteSaved, addLike, removeLike, addShare} = require('../controllers/roomBoardController');
 
 router.route('/').get(getRoomBoards).post(createRoomBoard);
 

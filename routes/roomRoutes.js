@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {getRooms, getRoom, createRoom, updateRoom, deleteRoom} = require('../controllers/roomController');
+const {getRooms, getRoom, createRoom, updateRoom, deleteRoom, addFurniture, deleteFurniture} = require('../controllers/roomController');
 
 router.route('/').get(getRooms).post(createRoom);
 

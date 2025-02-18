@@ -110,9 +110,9 @@ const deleteVariant = asyncHandler (async (req,res,next) => {
     }
     if (!CommercialFurnitureModel.variants){
         res.status(404);
-        return next(new Error("No variants
+        return next(new Error("No variants found"));
     }
-    const upDatedCommercialFurnitureModel.variants = commercialFurnitureModel.variants.filter(v => v._id != req.params.variantId);
+    const upDatedCommercialFurnitureModel = commercialFurnitureModel.variants.pull(variant);
     await upDatedCommercialFurnitureModel.save();
     res.status(200).json(commercialFurnitureModel);
 }

@@ -222,7 +222,7 @@ const removeLike = asyncHandler (async (req,res,next) => {
     }
     roomBoard.likes -= 1;
     const updatedRoomBoard = await RoomBoard.save();
-    res.status(201).json(updateRoomBoard);
+    res.status(201).json(updatedRoomBoard);
 }
 );
 
@@ -238,7 +238,7 @@ const addShare = asyncHandler (async (req,res,next) => {
     }
     roomBoard.shares += 1;
     const updatedRoomBoard = await roomBoard.save();
-    res.status(201).json(updateRoomBoard);
+    res.status(201).json(updatedRoomBoard);
 }
 );
 
