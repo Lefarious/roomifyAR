@@ -111,5 +111,5 @@ const deleteFurniture = asyncHandler (async (req,res,next) => {
 
 
 
-module.exports = { getRoom, getRooms, createRoom, updateRoom, deleteRoom };
+module.exports = { getRoom, getRooms, createRoom, updateRoom, deleteRoom , addFurniture, deleteFurniture};
 

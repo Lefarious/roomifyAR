@@ -2,7 +2,6 @@ const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel.js");
 const bcrypt = require("bcryptjs");
 const jwt = require('jsonwebtoken');
-const { findModelById, isExists } = require("../middleware/controllerUtilty.js");
 
 //@desc Get User
 //@route GET /api/Users/:id
@@ -72,11 +71,11 @@ const deleteUser = asyncHandler (async (req,res,next) => {
 
 //@desc Login User
 //@route POST /api/Users/login/:id
-//@access public
+//@access private
 
 const loginUser = asyncHandler (async (req,res,next) => {
     const { email, password } = req.body;
-    if(!email | !password){
+    if(!email || !password){
         res.status(400);
         return next(new Error("All feilds are mandtory"));
     }
@@ -136,6 +135,26 @@ const signupUser = asyncHandler(async (req, res, next) => {
     res.status(201).json("User signed up")
 });
 
+//@desc Current user info
+//@route GET /api/Users/current
+//@access private
+
+const currentUser = asyncHandler(async (req, res, next) => {
+    console.log("Current user information");
+    
+    //next();
+});
+
+
+const current = asyncHandler (async (req,res) => {
+    console.log("Current user information");
+});
+// const dummy = asyncHandler(async (req, res, next) => {
+//     await console.log("Dummy");
+//     res.json({ message : "Dummy" });
+//  next();
+// });
+
 //@desc Add Room
 //@route POST /api/Users/rooms/:id
 //@access public
@@ -150,6 +169,11 @@ const addRoom = asyncHandler (async (req,res,next) => {
   User.rooms.push(roomId).save();
     res.status(201).json(user);
 });
+
+
+//@desc Delete Room
+//@route DELETE /api/Users/rooms/:id
+//@access public
 
 const deleteRoom = asyncHandler (async (req,res,next) => {
     const user = findModelById
@@ -282,4 +306,4 @@ const deleteWishlist = asyncHandler (async (req,res,next) => {
 
 
 
-module.exports = { getUsers, getUser, createUser, updateUser, deleteUser, addRoom, deleteRoom, addSave, deleteSave, addScan, deleteScan, signupUser, addWishlist, deleteWishlist, loginUser};
+module.exports = { getUsers, getUser, createUser, updateUser, deleteUser, addRoom, deleteRoom, addSave, deleteSave, addScan, deleteScan, signupUser, addWishlist, deleteWishlist, loginUser, current};
