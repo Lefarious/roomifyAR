@@ -104,8 +104,8 @@ const loginUser = asyncHandler (async (req,res,next) => {
 
 const signupUser = asyncHandler(async (req, res, next) => {
     console.log("Request body : ", req.body);
-    const { username, email, password } = req.body;
-    if (!username || !email || !password) {
+    const { username, email, password, name, country } = req.body;
+    if (!username || !email || !password || !name || !country) {
         res.status(400);
         return next(new Error("All fields are mandatory"));
     }
@@ -118,7 +118,7 @@ const signupUser = asyncHandler(async (req, res, next) => {
     console.log("Hashed password : ", hashedPassword);
     let user;
     try {
-        user = await User.create({ username : username , email : email, password: hashedPassword });
+        user = await User.create({ username : username , email : email, password: hashedPassword , name: name, country: country });
     } catch (error) {
         console.log(error);
         res.status(500);
