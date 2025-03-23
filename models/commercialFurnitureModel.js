@@ -11,22 +11,22 @@ const commercialFurnitureSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    url: {
+        type: String,
+        required: true
+    },
     variations: {    //look into this
         color: {
-            type: String,
-            required: true
+            type: String
         },
         texture: {
-            type: String,
-            required: true
+            type: String
         },
         dimensions: {
-            type: String,
-            required: true
+            type: String
         },
         material: {
-            type: String,
-            required: true
+            type: String
         }
     }
 },

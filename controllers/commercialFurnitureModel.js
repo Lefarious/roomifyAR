@@ -30,12 +30,12 @@ const getCommercialFurnitureModels = asyncHandler (async (req,res) => {
 
 const createCommercialFurnitureModel = asyncHandler (async (req,res,next) => {
     console.log("Request body : ", req.body);
-    const {name, userId} = req.body;
-    if (!name || !userId){
+    const {name, userId, url} = req.body;
+    if (!name || !userId || !url){
         res.status(400);
         return next(new Error("All fields are mandatory"));
     }
-    const commercialFurnitureModel = await CommercialFurnitureModel.create({ name, userId });
+    const commercialFurnitureModel = await CommercialFurnitureModel.create({ name, userId , url});
     res.status(201).json(commercialFurnitureModel);
 }
 );

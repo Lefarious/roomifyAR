@@ -88,7 +88,7 @@ const loginUser = asyncHandler (async (req,res,next) => {
                 id: user.id,
             },
         }, process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: "1m"}
+        { expiresIn: "30m"}
     );
         res.status(200).json({ accessToken })
     } else {
@@ -138,26 +138,23 @@ const signupUser = asyncHandler(async (req, res, next) => {
 //@desc Current user info
 //@route GET /api/Users/current
 //@access private
-
 const currentUser = asyncHandler(async (req, res, next) => {
-    console.log("Current user information");
-    
-    //next();
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        res.status(401);
+        return next(new Error("No token provided"));
+    }
+
+    const token = authHeader.split(' ')[1];
+    try {
+        const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+        req.user = decoded.user;
+        res.status(200).json(req.user);
+    } catch (error) {
+        res.status(401);
+        return next(new Error("Invalid token"));
+    }
 });
-
-
-const current = asyncHandler (async (req,res) => {
-    console.log("Current user information");
-});
-// const dummy = asyncHandler(async (req, res, next) => {
-//     await console.log("Dummy");
-//     res.json({ message : "Dummy" });
-//  next();
-// });
-
-//@desc Add Room
-//@route POST /api/Users/rooms/:id
-//@access public
 
 const addRoom = asyncHandler (async (req,res,next) => {
     const user = await User.findById(req.params.id);
@@ -306,4 +303,4 @@ const deleteWishlist = asyncHandler (async (req,res,next) => {
 
 
 
-module.exports = { getUsers, getUser, createUser, updateUser, deleteUser, addRoom, deleteRoom, addSave, deleteSave, addScan, deleteScan, signupUser, addWishlist, deleteWishlist, loginUser, current};
+module.exports = { getUsers, getUser, createUser, updateUser, deleteUser, addRoom, deleteRoom, addSave, deleteSave, addScan, deleteScan, signupUser, addWishlist, deleteWishlist, loginUser, currentUser};
