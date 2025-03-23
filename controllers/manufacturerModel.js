@@ -14,3 +14,12 @@ const getManufacturerModel = asyncHandler (async (req,res,next) => {
     res.status(200).json(manufacturerModel);
 }
 );
+//@desc Get all ManufacturerModels
+//@route GET /api/ManufacturerModels/
+//@access public
+
+const getManufacturerModels = asyncHandler (async (req,res) => {
+    const manufacturerModels = await ManufacturerModel.find();
+    res.status(200).json(manufacturerModels);
+}
+);
