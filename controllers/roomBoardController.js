@@ -58,6 +58,20 @@ const updateRoomBoard = asyncHandler (async (req,res,next) => {
 }
 );
 
+//@desc Delete RoomBoard
+//@route DELETE /api/RoomBoards/:id
+//@access public
+
+const deleteRoomBoard = asyncHandler (async (req,res,next) => {
+    const roomBoard = await RoomBoard.findById(req.params.id);
+    if (!roomBoard) {
+        res.status(404);
+        return next(new Error("RoomBoard not found"));
+    }
+    await roomBoard.remove();
+    res.status(200).json({message : 'RoomBoard ${req.params.id} removed'});
+}
+);
 
 //@desc Add Model to RoomBoard
 //@route POST /api/RoomBoards/model/:id
