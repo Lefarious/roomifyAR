@@ -54,3 +54,19 @@ const updateManufacturerModel = asyncHandler (async (req,res,next) => {
    // res.status(200).json({message : `Update ManufacturerModels for ${req.params.id}`});
 }
 );
+//@desc Delete ManufacturerModel
+//@route DELETE /api/ManufacturerModels/:id
+//@access public
+
+const deleteManufacturerModel = asyncHandler (async (req,res,next) => {
+    const manufacturerModel = await ManufacturerModel.findById(req.params.id);
+    if (!manufacturerModel) {
+        res.status(404);
+        return next(new Error("ManufacturerModel not found"));
+    }
+    await manufacturerModel.remove();
+    res.status(200).json({message : `ManufacturerModel ${req.params.id} removed`});
+}
+);
+
+module.exports = {getManufacturerModel, getManufacturerModels, createManufacturerModel, updateManufacturerModel, deleteManufacturerModel};
