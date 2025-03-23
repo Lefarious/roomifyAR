@@ -24,6 +24,22 @@ const getRoomBoards = asyncHandler (async (req,res) => {
 });
 
 
+//@desc Create new RoomBoard
+//@route POST /api/RoomBoards/
+//@access public
+
+const createRoomBoard = asyncHandler (async (req,res,next) => {
+    console.log("Request body : ", req.body);
+    const {name, userId} = req.body;
+    if (!name || !userId){
+        res.status(400);
+        return next(new Error("All fields are mandatory"));
+    }
+    const roomBoard = await RoomBoard.create({ name, userId });
+    res.status(201).json(roomBoard);
+}
+);
+
 
 
 //@desc Add Model to RoomBoard
