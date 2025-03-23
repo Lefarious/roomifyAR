@@ -38,3 +38,19 @@ const createManufacturerModel = asyncHandler (async (req,res,next) => {
     res.status(201).json(manufacturerModel);
 }
 );
+//@desc Update ManufacturerModel
+//@route PUT /api/ManufacturerModels/:id
+//@access public
+
+const updateManufacturerModel = asyncHandler (async (req,res,next) => {
+    const manufacturerModel = await ManufacturerModel.findById(req.params.id);
+    if (!manufacturerModel) {
+        res.status(404);
+        return next(new Error("ManufacturerModel not found"));
+    }
+    console.log("Request body : ", req.body);
+    const updatedManufacturerModel = await ManufacturerModel.findByIdAndUpdate(req.params.id,req.body,{new: true});
+    res.status(201).json(updatedManufacturerModel);
+   // res.status(200).json({message : `Update ManufacturerModels for ${req.params.id}`});
+}
+);
