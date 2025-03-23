@@ -1,6 +1,29 @@
 const asyncHandler = require('express-async-handler');
 const RoomBoard = require('../models/roomBoardModel');
 
+//@desc Get RoomBoard
+//@route GET /api/RoomBoards/:id
+//@access public
+
+const getRoomBoard = asyncHandler (async (req,res,next) => {
+    const roomBoard = await RoomBoard.findById(req.params.id);
+    if (!roomBoard) {
+        res.status(404);
+        return next(new Error("RoomBoard not found"));
+    }
+    res.status(200).json(roomBoard);
+});
+
+//@desc Get all RoomBoards
+//@route GET /api/RoomBoards/
+//@access public
+
+const getRoomBoards = asyncHandler (async (req,res) => {
+    const roomBoards = await RoomBoard.find();
+    res.status(200).json(roomBoards);
+});
+
+
 
 
 //@desc Add Model to RoomBoard
