@@ -15,7 +15,7 @@ const commercialFurnitureSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    variations: {    //look into this
+    variations: {    
         color: {
             type: String
         },

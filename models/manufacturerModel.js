@@ -10,17 +10,11 @@ const manufactureSchema = nwe.mongoose.Schema({
         type: String,
         required: true
     },
-    phone: {
-        type: String,
-        required: true
-    },
     products: {
-        type: [CommercialFurniture.schema.obj],
-        required: true
+        type: [CommercialFurniture.schema.obj]
     },
     rating: {
-        type: Number,
-        required: true
+        type: Number
     },
 },
 {

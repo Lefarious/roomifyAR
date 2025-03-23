@@ -20,6 +20,10 @@ const userSchema = new mongoose.Schema({
     country: {
         type: String,
         required: true
+    },
+    userRole: {                 // userRole can be 'admin', 'user', 'manufacturer'
+        type: String,
+        required: true
     }
 },
 {
