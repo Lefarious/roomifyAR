@@ -41,6 +41,23 @@ const createRoomBoard = asyncHandler (async (req,res,next) => {
 );
 
 
+//@desc Update RoomBoard
+//@route PUT /api/RoomBoards/:id
+//@access public
+
+const updateRoomBoard = asyncHandler (async (req,res,next) => {
+    const roomBoard = await RoomBoard.findById(req.params.id);
+    if (!roomBoard) {
+        res.status(404);
+        return next(new Error("RoomBoard not found"));
+    }
+    console.log("Request body : ", req.body);
+    const updatedRoomBoard = await RoomBoard.findByIdAndUpdate(req.params.id,req.body,{new: true});
+    res.status(201).json(updatedRoomBoard);
+   // res.status(200).json({message : Update RoomBoards for ${req.params.id}});
+}
+);
+
 
 //@desc Add Model to RoomBoard
 //@route POST /api/RoomBoards/model/:id
