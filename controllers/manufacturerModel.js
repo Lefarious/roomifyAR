@@ -23,3 +23,18 @@ const getManufacturerModels = asyncHandler (async (req,res) => {
     res.status(200).json(manufacturerModels);
 }
 );
+//@desc Create new ManufacturerModel
+//@route POST /api/ManufacturerModels/
+//@access public
+
+const createManufacturerModel = asyncHandler (async (req,res,next) => {
+    console.log("Request body : ", req.body);
+    const {name, userId} = req.body;
+    if (!name || !userId){
+        res.status(400);
+        return next(new Error("All fields are mandatory"));
+    }
+    const manufacturerModel = await ManufacturerModel.create({ name, userId });
+    res.status(201).json(manufacturerModel);
+}
+);
