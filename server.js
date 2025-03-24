@@ -14,6 +14,12 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 app.use("/api/users/", require("./routes/userRoutes"));
+app.use("/api/manufacturers/", require("./routes/manufacturerRoutes"));
+app.use("/api/commercialFurniture/", require("./routes/commercialFurnitureModelRoutes"));
+app.use("/api/indieFurniture/", require("./routes/indieFurnitureModelRoutes"));
+app.use("/api/rooms/", require("./routes/roomRoutes"));
+app.use("/api/roomBoard/", require("./routes/roomBoard"));
+app.use
 //app.use("/api/users/current",validateToken);
 app.use(errorHandler);
 
