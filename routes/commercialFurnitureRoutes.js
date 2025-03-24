@@ -4,9 +4,9 @@ const {getCommercialFurnitures, getCommercialFurniture, createCommercialFurnitur
 
 router.route('/').get(getCommercialFurnitures).post(createCommercialFurniture);
 
-router.route('/:id').get(getCommercialFurniture).put(updateCommercialFurniture).delete(deleteCommercialFurniture);
-
 router.route('/variation/:id').post(addVariation).delete(deleteVariation);
+
+router.route('/:id').get(getCommercialFurniture).put(updateCommercialFurniture).delete(deleteCommercialFurniture);
 
 //router.route('/rating/:id').post(addRating);
 

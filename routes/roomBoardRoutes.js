@@ -4,8 +4,6 @@ const {getRoomBoards, getRoomBoard, createRoomBoard, updateRoomBoard, deleteRoom
 
 router.route('/').get(getRoomBoards).post(createRoomBoard);
 
-router.route('/:id').get(getRoomBoard).put(updateRoomBoard).delete(deleteRoomBoard);
-
 router.route('/model/:id').post(addModel).delete(deleteModel);
 
 router.route('/modelAnchor/:id').post(addModelAnchor).delete(deleteModelAnchor);
@@ -15,5 +13,7 @@ router.route('/saved/:id').post(addSaved).delete(deleteSaved);
 router.route('/likes/:id').post(addLike).delete(removeLike);
 
 route.route('shares/:id').post(addShare);
+
+router.route('/:id').get(getRoomBoard).put(updateRoomBoard).delete(deleteRoomBoard);
 
 module.exports = router;

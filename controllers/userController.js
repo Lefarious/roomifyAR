@@ -77,7 +77,7 @@ const loginUser = asyncHandler (async (req,res,next) => {
     const { email, password } = req.body;
     if(!email || !password){
         res.status(400);
-        return next(new Error("All feilds are mandtory"));
+        return next(new Error("All feilds are mandatory"));
     }
     const user = await User.findOne({ email });
     if(user && (await bcrypt.compare(password, user.password))) {
