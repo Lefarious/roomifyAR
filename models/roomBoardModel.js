@@ -12,27 +12,27 @@ const roomBoardSchema = new mongoose.Schema({
     },
     models: {
         type: [Furniture.schema.obj],
-        required: true
+        default: null
     },
     anchors: {
         type: String,
-        required: true  
+        default: null 
     },
     likes: {
         type: Number,
-        required: true
+        default: 0
     },
     saves: {    
         type: Number,
-        required: true
+        default: 0
     },
     shares: {
         type: Number,
-        required: true
+        default: 0
     },
     savedBy: {
         type: [User.schema.obj],
-        required: true
+        default: null
     }
 },
 {

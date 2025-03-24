@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const CommercialFurniture = require('./commercialFurnitureModel');
 
-const manufactureSchema = nwe.mongoose.Schema({
+const manufactureSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true
@@ -11,10 +11,11 @@ const manufactureSchema = nwe.mongoose.Schema({
         required: true
     },
     products: {
-        type: [CommercialFurniture.schema.obj]
+        type: [CommercialFurniture.schema.obj],
+        default: null
     },
     rating: {
-        type: Number
+        type: 0
     },
 },
 {

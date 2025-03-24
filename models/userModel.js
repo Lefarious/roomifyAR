@@ -23,7 +23,8 @@ const userSchema = new mongoose.Schema({
     },
     userRole: {                 // userRole can be 'admin', 'user', 'manufacturer'
         type: String,
-        required: true
+        required: true,
+        default: 'user'
     }
 },
 {
