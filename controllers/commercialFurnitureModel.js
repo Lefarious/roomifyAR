@@ -1,8 +1,6 @@
 const asyncHandler = require('express-async-handler');
 const CommercialFurnitureModel = require('../models/commercialFurnitureModel');
 
-//HARSHITH//
-
 //@desc Get CommercialFurnitureModel
 //@route GET /api/CommercialFurnitureModels/:id
 //@access public

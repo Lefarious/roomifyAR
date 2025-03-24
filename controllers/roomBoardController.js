@@ -23,7 +23,6 @@ const getRoomBoards = asyncHandler (async (req,res) => {
     res.status(200).json(roomBoards);
 });
 
-
 //@desc Create new RoomBoard
 //@route POST /api/RoomBoards/
 //@access public
