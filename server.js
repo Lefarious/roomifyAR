@@ -19,7 +19,7 @@ app.use("/api/commercialFurniture/", require("./routes/commercialFurnitureModelR
 app.use("/api/indieFurniture/", require("./routes/indieFurnitureModelRoutes"));
 app.use("/api/rooms/", require("./routes/roomRoutes"));
 app.use("/api/roomBoard/", require("./routes/roomBoardRoutes"));
-app.use
+
 //app.use("/api/users/current",validateToken);
 app.use(errorHandler);
 
