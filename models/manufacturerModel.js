@@ -15,7 +15,7 @@ const manufactureSchema = new mongoose.Schema({
         default: null
     },
     rating: {
-        type: 0
+        type: Number
     },
 },
 {

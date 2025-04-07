@@ -5,7 +5,7 @@ const ManufacturerModel = require('../models/manufacturerModel');
 //@route GET /api/ManufacturerModels/:id
 //@access public
 
-const getManufacturerModel = asyncHandler (async (req,res,next) => {
+const getManufacturer = asyncHandler (async (req,res,next) => {
     const manufacturerModel = await ManufacturerModel.findById(req.params.id);
     if (!manufacturerModel) {
         res.status(404);
@@ -18,7 +18,7 @@ const getManufacturerModel = asyncHandler (async (req,res,next) => {
 //@route GET /api/ManufacturerModels/
 //@access public
 
-const getManufacturerModels = asyncHandler (async (req,res) => {
+const getManufacturers = asyncHandler (async (req,res) => {
     const manufacturerModels = await ManufacturerModel.find();
     res.status(200).json(manufacturerModels);
 }
@@ -27,7 +27,7 @@ const getManufacturerModels = asyncHandler (async (req,res) => {
 //@route POST /api/ManufacturerModels/
 //@access public
 
-const createManufacturerModel = asyncHandler (async (req,res,next) => {
+const createManufacturer = asyncHandler (async (req,res,next) => {
     console.log("Request body : ", req.body);
     const {name, userId} = req.body;
     if (!name || !userId){
@@ -42,7 +42,7 @@ const createManufacturerModel = asyncHandler (async (req,res,next) => {
 //@route PUT /api/ManufacturerModels/:id
 //@access public
 
-const updateManufacturerModel = asyncHandler (async (req,res,next) => {
+const updateManufacturer = asyncHandler (async (req,res,next) => {
     const manufacturerModel = await ManufacturerModel.findById(req.params.id);
     if (!manufacturerModel) {
         res.status(404);
@@ -58,7 +58,7 @@ const updateManufacturerModel = asyncHandler (async (req,res,next) => {
 //@route DELETE /api/ManufacturerModels/:id
 //@access public
 
-const deleteManufacturerModel = asyncHandler (async (req,res,next) => {
+const deleteManufacturer = asyncHandler (async (req,res,next) => {
     const manufacturerModel = await ManufacturerModel.findById(req.params.id);
     if (!manufacturerModel) {
         res.status(404);
@@ -69,4 +69,4 @@ const deleteManufacturerModel = asyncHandler (async (req,res,next) => {
 }
 );
 
-module.exports = {getManufacturerModel, getManufacturerModels, createManufacturerModel, updateManufacturerModel, deleteManufacturerModel};
+module.exports = {getManufacturer, getManufacturers, createManufacturer, updateManufacturer, deleteManufacturer};

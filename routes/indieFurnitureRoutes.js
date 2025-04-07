@@ -1,4 +1,4 @@
-const express = requuire('express');
+const express = require('express');
 const router = express.Router();
 const {getIndieFurnitures, getIndieFurniture, createIndieFurniture, updateIndieFurniture, deleteIndieFurniture} = require('../controllers/indieFurnitureController');
 
