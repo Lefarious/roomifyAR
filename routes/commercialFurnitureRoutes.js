@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const {getCommercialFurnitures, getCommercialFurniture, createCommercialFurniture, updateCommercialFurniture, deleteCommercialFurniture, addVariation, deleteVariation} = require('../controllers/commercialFurnitureController');
+const {getCommercialFurnitureModels, getCommercialFurnitureModel, createCommercialFurnitureModel, updateCommercialFurnitureModel, deleteCommercialFurnitureModel, addVariant, deleteVariant} = require('../controllers/commercialFurnitureController');
 
-router.route('/').get(getCommercialFurnitures).post(createCommercialFurniture);
+router.route('/').get(getCommercialFurnitureModels).post(createCommercialFurnitureModel);
 
-router.route('/variation/:id').post(addVariation).delete(deleteVariation);
+//router.route('/variation/:id').post(addVariant).delete(deleteVariant);
 
-router.route('/:id').get(getCommercialFurniture).put(updateCommercialFurniture).delete(deleteCommercialFurniture);
+router.route('/:id').get(getCommercialFurnitureModel).put(updateCommercialFurnitureModel).delete(deleteCommercialFurnitureModel);
 
 //router.route('/rating/:id').post(addRating);
 

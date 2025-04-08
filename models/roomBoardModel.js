@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Furniture = require('./furnitureModel');
+const User = require('./userModel');
 
 const roomBoardSchema = new mongoose.Schema({
     name: {
