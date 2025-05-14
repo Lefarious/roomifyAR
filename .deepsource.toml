@@ -1,16 +1,13 @@
 version = 1
 
 [[analyzers]]
-name = "javascript"
+name    = "javascript"
+enabled = true
 
-  [analyzers.meta]
-  module_system = "commonjs"
-  environment = [
-    "nodejs",
-    "browser",
-    "jest",
-  ]
+[analyzers.meta]
+plugins     = ["react"]
+environment = ["nodejs", "browser", "jest"]
 
-  plugins = ["react"]
-  style_guide = "airbnb"
-  dialect = "flow"
+[patterns]
+tests   = ["test/**", "integration_tests/tests_*.py", "**/*_test.go"]
+exclude = ["migrations/**", "dist/*min.js"]
